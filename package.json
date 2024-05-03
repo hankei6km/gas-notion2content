@@ -1,0 +1,60 @@
+{
+  "name": "@hankei6km/my-starter-gas-lib-ts",
+  "version": "0.13.0",
+  "description": "My Starter to make Google Apps Script library by using TypeScript",
+  "author": "hankei6km <hankei6km@gmail.com> (https://github.com/hankei6km)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hankei6km/gas-md2html.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hankei6km/gas-md2html/issues"
+  },
+  "keywords": [
+    "gas",
+    "markdown",
+    "html"
+  ],
+  "files": [
+    "index.d.ts"
+  ],
+  "main": "",
+  "type": "module",
+  "types": "index.d.ts",
+  "scripts": {
+    "setup:clasp": "bash scripts/setup-clasp.sh && bash scripts/setup-clasprc.sh",
+    "cleanup:clasp": "bash scripts/cleanup-clasp.sh",
+    "clean": "npm run clean:build && npm run clean:test",
+    "clean:build": "rimraf index.d.ts build/*",
+    "clean:test": "rimraf test/build/*.spec.js",
+    "build": "npm run clean:build && bash scripts/build.sh",
+    "push": "bash scripts/clasp-with-auth.sh push --force",
+    "deploy": "bash scripts/clasp-with-auth.sh deploy",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:build": "npm run clean:test && npm run build && bash scripts/test-build.sh && npm run test",
+    "posttest:build": "npm run clean:test",
+    "lint:type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hast-util-raw": "^9.0.2",
+    "hast-util-sanitize": "^5.0.1",
+    "hast-util-to-html": "^9.0.1",
+    "mdast-util-from-markdown": "^2.0.0",
+    "mdast-util-gfm": "^3.0.0",
+    "mdast-util-to-hast": "^13.1.0",
+    "micromark-extension-gfm": "^3.0.0"
+  },
+  "devDependencies": {
+    "@hankei6km/files-to-licenses": "^0.1.1",
+    "@types/google-apps-script": "^1.0.83",
+    "@types/jest": "^29.5.12",
+    "esbuild": "^0.20.2",
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5"
+  }
+}
