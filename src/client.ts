@@ -41,6 +41,7 @@ export class Client extends N2CClient {
     ...args: Parameters<NotionClient['databases']['query']>
   ): Promise<ReturnType<NotionClient['databases']['query']>> {
     const url = apiUrlDabtabaseQuery(args[0].database_id)
+    console.log(JSON.stringify(args[0], null, 2))
     const res = UrlFetchApp.fetch(url, {
       method: 'post',
       headers: {
