@@ -8,6 +8,16 @@ const apiUrlDabtabaseQuery = (database_id: string) =>
 const apiUrlBlockChildren = (database_id: string) =>
   `ttps://api.notion.com/v1/blocks/${database_id}/children`
 
+export function isErrRes(
+  res: GoogleAppsScript.URL_Fetch.HTTPResponse
+): boolean {
+  const code = Math.trunc(res.getResponseCode() / 100)
+  if (code === 4 || code === 5) {
+    return true
+  }
+  return false
+}
+
 /**
  * Represents the options for the client.
  * @typedef {Object} ClientOpts
@@ -38,8 +48,14 @@ export class Client extends N2CClient {
         'Content-Type': 'application/json',
         'Notion-Version': apiVersion
       },
-      payload: JSON.stringify(args[0])
+      payload: JSON.stringify(args[0]),
+      muteHttpExceptions: true
     })
+    if (isErrRes(res)) {
+      throw new Error(
+        `queryDatabases ${res.getResponseCode()}, text: ${res.getContentText()}`
+      )
+    }
     const resQuery = JSON.parse(res.getContentText()) as ReturnType<
       NotionClient['databases']['query']
     >
@@ -55,8 +71,14 @@ export class Client extends N2CClient {
         Authorization: `Bearer ${this.auth}`,
         'Content-Type': 'application/json',
         'Notion-Version': apiVersion
-      }
+      },
+      muteHttpExceptions: true
     })
+    if (isErrRes(res)) {
+      throw new Error(
+        `listBlockChildren ${res.getResponseCode()}, text: ${res.getContentText()}`
+      )
+    }
     const resQuery = JSON.parse(res.getContentText()) as ReturnType<
       NotionClient['blocks']['children']['list']
     >
