@@ -41,7 +41,9 @@ export class Client extends N2CClient {
     ...args: Parameters<NotionClient['databases']['query']>
   ): Promise<ReturnType<NotionClient['databases']['query']>> {
     const url = apiUrlDabtabaseQuery(args[0].database_id)
-    console.log(JSON.stringify(args[0], null, 2))
+    const { database_id, ...payload } = args[0]
+    console.log('queryDatabases payload:')
+    console.log(JSON.stringify(payload, null, 2))
     const res = UrlFetchApp.fetch(url, {
       method: 'post',
       headers: {
@@ -49,7 +51,7 @@ export class Client extends N2CClient {
         'Content-Type': 'application/json',
         'Notion-Version': apiVersion
       },
-      payload: JSON.stringify(args[0]),
+      payload: JSON.stringify(payload),
       muteHttpExceptions: true
     })
     if (isErrRes(res)) {
@@ -66,6 +68,8 @@ export class Client extends N2CClient {
     ...args: Parameters<NotionClient['blocks']['children']['list']>
   ): Promise<ReturnType<NotionClient['blocks']['children']['list']>> {
     const url = apiUrlBlockChildren(args[0].block_id)
+    console.log('listBlockChildren args:')
+    console.log(JSON.stringify(args[0], null, 2))
     const res = UrlFetchApp.fetch(url, {
       method: 'get',
       headers: {
