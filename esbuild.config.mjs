@@ -14,7 +14,7 @@ const result = await esbuild.build({
   sourcemap: false,
   platform: 'node',
   metafile: true,
-  target: 'ES2019',
+  target: 'ES2017',
   tsconfig: 'tsconfig.build.json',
   logLevel: 'info'
 })

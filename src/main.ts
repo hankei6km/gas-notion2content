@@ -1,1 +1,1 @@
-export { MD2html } from './md2html.js'
+export { Notion2content } from './notion2content.js'

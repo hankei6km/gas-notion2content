@@ -1,0 +1,65 @@
+import type { Client as NotionClient } from '@notionhq/client'
+import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
+import { Client as N2CClient } from 'notion2content'
+
+const apiVersion = '2022-02-22'
+const apiUrlDabtabaseQuery = (database_id: string) =>
+  `https://api.notion.com/v1/databases/${database_id}/query`
+const apiUrlBlockChildren = (database_id: string) =>
+  `ttps://api.notion.com/v1/blocks/${database_id}/children`
+
+/**
+ * Represents the options for the client.
+ * @typedef {Object} ClientOpts
+ * @property {string} auth - The auth token for the Notion API.
+ */
+export type ClientOpts = {
+  /**
+   * The auth token for the Notion API.
+   */
+  auth: string
+}
+
+export class Client extends N2CClient {
+  private auth: string = ''
+  constructor(options: ClientOpts) {
+    super()
+    this.auth = options.auth
+  }
+
+  queryDatabases(
+    ...args: Parameters<NotionClient['databases']['query']>
+  ): Promise<ReturnType<NotionClient['databases']['query']>> {
+    const url = apiUrlDabtabaseQuery(args[0].database_id)
+    const res = UrlFetchApp.fetch(url, {
+      method: 'post',
+      headers: {
+        Authorization: `Bearer ${this.auth}`,
+        'Content-Type': 'application/json',
+        'Notion-Version': apiVersion
+      },
+      payload: JSON.stringify(args[0])
+    })
+    const resQuery = JSON.parse(res.getContentText()) as ReturnType<
+      NotionClient['databases']['query']
+    >
+    return new Promise((resolve) => resolve(resQuery))
+  }
+  listBlockChildren(
+    ...args: Parameters<NotionClient['blocks']['children']['list']>
+  ): Promise<ReturnType<NotionClient['blocks']['children']['list']>> {
+    const url = apiUrlBlockChildren(args[0].block_id)
+    const res = UrlFetchApp.fetch(url, {
+      method: 'get',
+      headers: {
+        Authorization: `Bearer ${this.auth}`,
+        'Content-Type': 'application/json',
+        'Notion-Version': apiVersion
+      }
+    })
+    const resQuery = JSON.parse(res.getContentText()) as ReturnType<
+      NotionClient['blocks']['children']['list']
+    >
+    return new Promise((resolve) => resolve(resQuery))
+  }
+}

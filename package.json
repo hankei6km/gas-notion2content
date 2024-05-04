@@ -1,19 +1,20 @@
 {
-  "name": "@hankei6km/my-starter-gas-lib-ts",
-  "version": "0.13.0",
-  "description": "My Starter to make Google Apps Script library by using TypeScript",
+  "name": "gas-notion2content",
+  "version": "0.0.0",
+  "description": "Notion のデータベースを変換しダウンロードする GAS ライブラリー",
   "author": "hankei6km <hankei6km@gmail.com> (https://github.com/hankei6km)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/hankei6km/gas-md2html.git"
+    "url": "git://github.com/hankei6km/gas-notion2content"
   },
   "bugs": {
-    "url": "https://github.com/hankei6km/gas-md2html/issues"
+    "url": "https://github.com/hankei6km/gas-notion2contentues"
   },
   "keywords": [
     "gas",
-    "markdown",
+    "notion",
+    "hast",
     "html"
   ],
   "files": [
@@ -36,15 +37,6 @@
     "posttest:build": "npm run clean:test",
     "lint:type-check": "tsc --noEmit"
   },
-  "dependencies": {
-    "hast-util-raw": "^9.0.2",
-    "hast-util-sanitize": "^5.0.1",
-    "hast-util-to-html": "^9.0.1",
-    "mdast-util-from-markdown": "^2.0.0",
-    "mdast-util-gfm": "^3.0.0",
-    "mdast-util-to-hast": "^13.1.0",
-    "micromark-extension-gfm": "^3.0.0"
-  },
   "devDependencies": {
     "@hankei6km/files-to-licenses": "^0.1.1",
     "@types/google-apps-script": "^1.0.83",
@@ -56,5 +48,9 @@
     "ts-node": "^10.9.2",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "notion2content": "^0.1.1"
   }
 }
