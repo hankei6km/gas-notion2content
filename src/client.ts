@@ -6,7 +6,7 @@ const apiVersion = '2022-02-22'
 const apiUrlDabtabaseQuery = (database_id: string) =>
   `https://api.notion.com/v1/databases/${database_id}/query`
 const apiUrlBlockChildren = (database_id: string) =>
-  `ttps://api.notion.com/v1/blocks/${database_id}/children`
+  `https://api.notion.com/v1/blocks/${database_id}/children`
 
 export function isErrRes(
   res: GoogleAppsScript.URL_Fetch.HTTPResponse
