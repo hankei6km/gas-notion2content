@@ -39,7 +39,7 @@ export class Client extends N2CClient {
 
   queryDatabases(
     ...args: Parameters<NotionClient['databases']['query']>
-  ): Promise<ReturnType<NotionClient['databases']['query']>> {
+  ): ReturnType<NotionClient['databases']['query']> {
     const url = apiUrlDabtabaseQuery(args[0].database_id)
     const { database_id, ...payload } = args[0]
     console.log('queryDatabases payload:')
@@ -62,11 +62,11 @@ export class Client extends N2CClient {
     const resQuery = JSON.parse(res.getContentText()) as ReturnType<
       NotionClient['databases']['query']
     >
-    return new Promise((resolve) => resolve(resQuery))
+    return Promise.resolve(resQuery)
   }
   listBlockChildren(
     ...args: Parameters<NotionClient['blocks']['children']['list']>
-  ): Promise<ReturnType<NotionClient['blocks']['children']['list']>> {
+  ): ReturnType<NotionClient['blocks']['children']['list']> {
     const url = apiUrlBlockChildren(args[0].block_id)
     console.log('listBlockChildren args:')
     console.log(JSON.stringify(args[0], null, 2))
@@ -87,6 +87,6 @@ export class Client extends N2CClient {
     const resQuery = JSON.parse(res.getContentText()) as ReturnType<
       NotionClient['blocks']['children']['list']
     >
-    return new Promise((resolve) => resolve(resQuery))
+    return Promise.resolve(resQuery)
   }
 }
