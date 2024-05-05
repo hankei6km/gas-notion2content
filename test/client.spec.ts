@@ -1,5 +1,6 @@
 import { jest } from '@jest/globals'
 import { Client } from '../src/client.js'
+import { randomUUID } from 'node:crypto'
 
 const saveUrlFetchApp = global.UrlFetchApp
 afterEach(() => {
@@ -18,7 +19,8 @@ describe('Client', () => {
       fetch: mockfetch
     } as any
 
-    const c = new Client({ auth: 'dummy' })
+    const auth = randomUUID()
+    const c = new Client({ auth })
 
     await expect(c.queryDatabases({ database_id: 'dummy' })).resolves.toEqual(
       exampleQueryDatabasesResult
@@ -27,7 +29,7 @@ describe('Client', () => {
       'https://api.notion.com/v1/databases/dummy/query',
       {
         headers: {
-          Authorization: 'Bearer dummy',
+          Authorization: `Bearer ${auth}`,
           'Content-Type': 'application/json',
           'Notion-Version': '2022-02-22'
         },
@@ -47,7 +49,8 @@ describe('Client', () => {
       fetch: mockfetch
     } as any
 
-    const c = new Client({ auth: 'dummy' })
+    const auth = randomUUID()
+    const c = new Client({ auth })
     await expect(c.queryDatabases({ database_id: 'dummy' })).rejects.toThrow(
       /^queryDatabases 500, text: Internal Server Error$/
     )
@@ -63,7 +66,9 @@ describe('Client', () => {
     global.UrlFetchApp = {
       fetch: mockfetch
     } as any
-    const c = new Client({ auth: 'dummy' })
+
+    const auth = randomUUID()
+    const c = new Client({ auth })
     await expect(c.listBlockChildren({ block_id: 'dummy' })).resolves.toEqual(
       exampleListBlockChildrenResult
     )
@@ -71,7 +76,7 @@ describe('Client', () => {
       'https://api.notion.com/v1/blocks/dummy/children',
       {
         headers: {
-          Authorization: 'Bearer dummy',
+          Authorization: `Bearer ${auth}`,
           'Content-Type': 'application/json',
           'Notion-Version': '2022-02-22'
         },
@@ -89,7 +94,9 @@ describe('Client', () => {
     global.UrlFetchApp = {
       fetch: mockfetch
     } as any
-    const c = new Client({ auth: 'dummy' })
+
+    const auth = randomUUID()
+    const c = new Client({ auth })
     await expect(c.listBlockChildren({ block_id: 'dummy' })).rejects.toThrow(
       /^listBlockChildren 500, text: Internal Server Error$/
     )
