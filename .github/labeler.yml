@@ -2,4 +2,4 @@
   - all:
       - changed-files:
           - any-glob-to-any-file:
-              - 'src/index.ts'
+              - 'src/index.js'
