@@ -7,6 +7,13 @@ afterEach(() => {
 })
 
 describe('Client', () => {
+  function getExpectedHeaders(auth: string) {
+    return {
+      Authorization: `Bearer ${auth}`,
+      'Content-Type': 'application/json',
+      'Notion-Version': '2022-02-22'
+    }
+  }
   it('should queryDatabases is successful', async () => {
     const mockfetch = jest.fn().mockReturnValue({
       getResponseCode: jest.fn().mockReturnValue(200),
@@ -26,11 +33,7 @@ describe('Client', () => {
     expect(mockfetch).toHaveBeenCalledWith(
       'https://api.notion.com/v1/databases/dummy/query',
       {
-        headers: {
-          Authorization: 'Bearer dummy',
-          'Content-Type': 'application/json',
-          'Notion-Version': '2022-02-22'
-        },
+        headers: getExpectedHeaders('dummy'),
         method: 'post',
         muteHttpExceptions: true,
         payload: '{}'
@@ -70,11 +73,7 @@ describe('Client', () => {
     expect(mockfetch).toHaveBeenCalledWith(
       'https://api.notion.com/v1/blocks/dummy/children',
       {
-        headers: {
-          Authorization: 'Bearer dummy',
-          'Content-Type': 'application/json',
-          'Notion-Version': '2022-02-22'
-        },
+        headers: getExpectedHeaders('dummy'),
         method: 'get',
         muteHttpExceptions: true
       }
