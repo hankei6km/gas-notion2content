@@ -53,8 +53,10 @@ export class Client extends N2CClient {
       muteHttpExceptions: true
     })
     if (isErrRes(res)) {
-      throw new Error(
-        `queryDatabases ${res.getResponseCode()}, text: ${res.getContentText()}`
+      return Promise.reject(
+        new Error(
+          `queryDatabases ${res.getResponseCode()}, text: ${res.getContentText()}`
+        )
       )
     }
     const resQuery = JSON.parse(res.getContentText()) as Awaited<
@@ -76,8 +78,10 @@ export class Client extends N2CClient {
       muteHttpExceptions: true
     })
     if (isErrRes(res)) {
-      throw new Error(
-        `listBlockChildren ${res.getResponseCode()}, text: ${res.getContentText()}`
+      return Promise.reject(
+        new Error(
+          `listBlockChildren ${res.getResponseCode()}, text: ${res.getContentText()}`
+        )
       )
     }
     const resQuery = JSON.parse(res.getContentText()) as Awaited<
