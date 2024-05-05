@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-NAMESPACE="MD2html"
-BASENAME="md2html"
+NAMESPACE="Notion2content"
+BASENAME="notion2content"
 
 BUILD_DIR="build"
 # esbuild でビルドされた結果(定義は "esbuild.config.mjs" でされている).
