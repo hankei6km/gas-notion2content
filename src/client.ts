@@ -59,8 +59,8 @@ export class Client extends N2CClient {
         `queryDatabases ${res.getResponseCode()}, text: ${res.getContentText()}`
       )
     }
-    const resQuery = JSON.parse(res.getContentText()) as ReturnType<
-      NotionClient['databases']['query']
+    const resQuery = JSON.parse(res.getContentText()) as Awaited<
+      ReturnType<NotionClient['databases']['query']>
     >
     return Promise.resolve(resQuery)
   }
@@ -84,8 +84,8 @@ export class Client extends N2CClient {
         `listBlockChildren ${res.getResponseCode()}, text: ${res.getContentText()}`
       )
     }
-    const resQuery = JSON.parse(res.getContentText()) as ReturnType<
-      NotionClient['blocks']['children']['list']
+    const resQuery = JSON.parse(res.getContentText()) as Awaited<
+      ReturnType<NotionClient['blocks']['children']['list']>
     >
     return Promise.resolve(resQuery)
   }
