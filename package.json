@@ -51,6 +51,6 @@
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
-    "notion2content": "^0.2.0"
+    "notion2content": "^0.3.0"
   }
 }
