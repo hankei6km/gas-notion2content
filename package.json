@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
+    "hast-util-sanitize": "^5.0.1",
     "notion2content": "^0.3.0"
   }
 }

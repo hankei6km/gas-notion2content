@@ -11,3 +11,15 @@
 function toContent(clientOpts, toContentOpts) {
   return _entry_point_.Notion2content.toContent(clientOpts, toContentOpts)
 }
+
+async function toFrontmatterString(src, inOpts) {
+  return _entry_point_.Notion2content.Format.toFrontmatterString(src, inOpts)
+}
+
+async function toHtmlString(src, inOpts) {
+  return _entry_point_.Notion2content.Format.toHtmlString(src, inOpts)
+}
+
+async function toHMarkdownString(src, inOpts) {
+  return _entry_point_.Notion2content.Format.toHMarkdownString(src, inOpts)
+}
