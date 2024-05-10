@@ -73,7 +73,7 @@ export namespace Notion2content {
       return _Format.toHtmlString(src, opts)
     }
 
-    export async function toHMarkdownString(
+    export async function toMarkdownString(
       src: ContentRaw,
       inOpts?: FormatOptions
     ) {
@@ -81,12 +81,12 @@ export namespace Notion2content {
       if (sanitizeSchema) {
         const { id, props, content } = src
         if (typeof sanitizeSchema === 'boolean') {
-          return _Format.toHMarkdownString(
+          return _Format.toMarkdownString(
             { id, props, content: content && sanitize(content) },
             opts
           )
         } else {
-          return _Format.toHMarkdownString(
+          return _Format.toMarkdownString(
             {
               id,
               props,
@@ -96,7 +96,7 @@ export namespace Notion2content {
           )
         }
       }
-      return _Format.toHMarkdownString(src, opts)
+      return _Format.toMarkdownString(src, opts)
     }
   }
 }

@@ -20,6 +20,6 @@ async function toHtmlString(src, inOpts) {
   return _entry_point_.Notion2content.Format.toHtmlString(src, inOpts)
 }
 
-async function toHMarkdownString(src, inOpts) {
-  return _entry_point_.Notion2content.Format.toHMarkdownString(src, inOpts)
+async function toMarkdownString(src, inOpts) {
+  return _entry_point_.Notion2content.Format.toMarkdownString(src, inOpts)
 }

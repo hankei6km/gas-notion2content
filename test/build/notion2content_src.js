@@ -62,11 +62,11 @@ describe('Notion2content', () => {
     ).toEqual('test-text')
   })
 
-  describe('toHMarkdownString()', () => {
+  describe('toMarkdownString()', () => {
     it('should convert hast to markdown string', async () => {
-      expect(await toHMarkdownString({ id: 'test-id' })).toEqual('')
+      expect(await toMarkdownString({ id: 'test-id' })).toEqual('')
       expect(
-        await toHMarkdownString({
+        await toMarkdownString({
           id: 'test-id',
           content: { type: 'text', value: 'test-text' }
         })
