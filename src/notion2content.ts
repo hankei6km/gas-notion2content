@@ -59,7 +59,7 @@ export namespace Notion2content {
       const { id, props, content } = src
       if (typeof sanitizeSchema === 'boolean') {
         return _Format.toHtmlString(
-          { id, props, content: content && sanitize(content) },
+          { id, props, content: content && sanitize(content, defaultSchema) },
           opts
         )
       } else {
@@ -85,7 +85,7 @@ export namespace Notion2content {
       const { id, props, content } = src
       if (typeof sanitizeSchema === 'boolean') {
         return _Format.toMarkdownString(
-          { id, props, content: content && sanitize(content) },
+          { id, props, content: content && sanitize(content, defaultSchema) },
           opts
         )
       } else {
