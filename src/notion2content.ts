@@ -1,8 +1,5 @@
-import {
-  ToContentOpts,
-  toContent as _toContent,
-  Format as _Format
-} from 'notion2content'
+import { toContent as _toContent, Format as _Format } from 'notion2content'
+import type { ToContentOpts, Format as _FormatType } from 'notion2content'
 import type { ContentRaw } from 'notion2content'
 import { Client } from './client.js'
 import { sanitize, defaultSchema } from 'hast-util-sanitize'
@@ -31,7 +28,7 @@ export namespace Notion2content {
 
   export type FormatOptions = {
     sanitizeSchema?: Schema | boolean
-  } & _Format.FormatOptions
+  } & _FormatType.FormatOptions
 
   function defaultFormatOptions(): Required<FormatOptions> {
     return {
