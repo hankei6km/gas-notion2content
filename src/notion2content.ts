@@ -17,86 +17,79 @@ export namespace Notion2content {
     return _toContent(c, toContentOpts)
   }
 
-  export namespace Format {
-    export type FormatOptions = {
-      sanitizeSchema?: Schema | boolean
-    } & _Format.FormatOptions
+  export type FormatOptions = {
+    sanitizeSchema?: Schema | boolean
+  } & _Format.FormatOptions
 
-    function defaultFormatOptions(): Required<Format.FormatOptions> {
-      return {
-        sanitizeSchema: true
+  function defaultFormatOptions(): Required<FormatOptions> {
+    return {
+      sanitizeSchema: true
+    }
+  }
+
+  export function normalizeFormatOptions(opts?: FormatOptions): FormatOptions {
+    if (typeof opts === 'object' && opts !== null) {
+      return Object.assign(defaultFormatOptions(), opts)
+    }
+    return {
+      sanitizeSchema: true
+    }
+  }
+
+  export async function toFrontmatterString(
+    src: ContentRaw,
+    inOpts?: FormatOptions
+  ) {
+    const { sanitizeSchema, ...opts } = normalizeFormatOptions(inOpts)
+    return _Format.toFrontmatterString(src, opts)
+  }
+
+  export async function toHtmlString(src: ContentRaw, inOpts?: FormatOptions) {
+    const { sanitizeSchema, ...opts } = normalizeFormatOptions(inOpts)
+    if (sanitizeSchema) {
+      const { id, props, content } = src
+      if (typeof sanitizeSchema === 'boolean') {
+        return _Format.toHtmlString(
+          { id, props, content: content && sanitize(content) },
+          opts
+        )
+      } else {
+        return _Format.toHtmlString(
+          {
+            id,
+            props,
+            content: content && sanitize(content, sanitizeSchema)
+          },
+          opts
+        )
       }
     }
+    return _Format.toHtmlString(src, opts)
+  }
 
-    export function normalizeFormatOptions(
-      opts?: Format.FormatOptions
-    ): Format.FormatOptions {
-      if (typeof opts === 'object' && opts !== null) {
-        return Object.assign(defaultFormatOptions(), opts)
-      }
-      return {
-        sanitizeSchema: true
+  export async function toMarkdownString(
+    src: ContentRaw,
+    inOpts?: FormatOptions
+  ) {
+    const { sanitizeSchema, ...opts } = normalizeFormatOptions(inOpts)
+    if (sanitizeSchema) {
+      const { id, props, content } = src
+      if (typeof sanitizeSchema === 'boolean') {
+        return _Format.toMarkdownString(
+          { id, props, content: content && sanitize(content) },
+          opts
+        )
+      } else {
+        return _Format.toMarkdownString(
+          {
+            id,
+            props,
+            content: content && sanitize(content, sanitizeSchema)
+          },
+          opts
+        )
       }
     }
-
-    export async function toFrontmatterString(
-      src: ContentRaw,
-      inOpts?: FormatOptions
-    ) {
-      const { sanitizeSchema, ...opts } = normalizeFormatOptions(inOpts)
-      return _Format.toFrontmatterString(src, opts)
-    }
-
-    export async function toHtmlString(
-      src: ContentRaw,
-      inOpts?: FormatOptions
-    ) {
-      const { sanitizeSchema, ...opts } = normalizeFormatOptions(inOpts)
-      if (sanitizeSchema) {
-        const { id, props, content } = src
-        if (typeof sanitizeSchema === 'boolean') {
-          return _Format.toHtmlString(
-            { id, props, content: content && sanitize(content) },
-            opts
-          )
-        } else {
-          return _Format.toHtmlString(
-            {
-              id,
-              props,
-              content: content && sanitize(content, sanitizeSchema)
-            },
-            opts
-          )
-        }
-      }
-      return _Format.toHtmlString(src, opts)
-    }
-
-    export async function toMarkdownString(
-      src: ContentRaw,
-      inOpts?: FormatOptions
-    ) {
-      const { sanitizeSchema, ...opts } = normalizeFormatOptions(inOpts)
-      if (sanitizeSchema) {
-        const { id, props, content } = src
-        if (typeof sanitizeSchema === 'boolean') {
-          return _Format.toMarkdownString(
-            { id, props, content: content && sanitize(content) },
-            opts
-          )
-        } else {
-          return _Format.toMarkdownString(
-            {
-              id,
-              props,
-              content: content && sanitize(content, sanitizeSchema)
-            },
-            opts
-          )
-        }
-      }
-      return _Format.toMarkdownString(src, opts)
-    }
+    return _Format.toMarkdownString(src, opts)
   }
 }
