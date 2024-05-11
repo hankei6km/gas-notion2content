@@ -1,14 +1,23 @@
-import {
-  ToContentOpts,
-  toContent as _toContent,
-  Format as _Format
-} from 'notion2content'
+import { toContent as _toContent, Format as _Format } from 'notion2content'
+import type { ToContentOpts, Format as _FormatType } from 'notion2content'
 import type { ContentRaw } from 'notion2content'
-import { ClientOpts, Client } from './client.js'
+import { Client } from './client.js'
 import { sanitize, defaultSchema } from 'hast-util-sanitize'
 import type { Schema } from 'hast-util-sanitize'
 
 export namespace Notion2content {
+  /**
+   * Represents the options for the client.
+   * @typedef {Object} ClientOpts
+   * @property {string} auth - The auth token for the Notion API.
+   */
+  export type ClientOpts = {
+    /**
+     * The auth token for the Notion API.
+     */
+    auth: string
+  }
+
   export function toContent(
     clientOpts: ClientOpts,
     toContentOpts: ToContentOpts
@@ -19,7 +28,7 @@ export namespace Notion2content {
 
   export type FormatOptions = {
     sanitizeSchema?: Schema | boolean
-  } & _Format.FormatOptions
+  } & _FormatType.FormatOptions
 
   function defaultFormatOptions(): Required<FormatOptions> {
     return {
