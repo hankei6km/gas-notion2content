@@ -1,6 +1,7 @@
 import type { Client as NotionClient } from '@notionhq/client'
 import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
 import { Client as N2CClient } from 'notion2content'
+import type { Notion2content } from './notion2content.js'
 
 const apiVersion = '2022-02-22'
 const apiUrlDabtabaseQuery = (database_id: string) =>
@@ -18,21 +19,9 @@ export function isErrRes(
   return false
 }
 
-/**
- * Represents the options for the client.
- * @typedef {Object} ClientOpts
- * @property {string} auth - The auth token for the Notion API.
- */
-export type ClientOpts = {
-  /**
-   * The auth token for the Notion API.
-   */
-  auth: string
-}
-
 export class Client extends N2CClient {
   private auth: string = ''
-  constructor(options: ClientOpts) {
+  constructor(options: Notion2content.ClientOpts) {
     super()
     this.auth = options.auth
   }

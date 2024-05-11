@@ -4,11 +4,23 @@ import {
   Format as _Format
 } from 'notion2content'
 import type { ContentRaw } from 'notion2content'
-import { ClientOpts, Client } from './client.js'
+import { Client } from './client.js'
 import { sanitize, defaultSchema } from 'hast-util-sanitize'
 import type { Schema } from 'hast-util-sanitize'
 
 export namespace Notion2content {
+  /**
+   * Represents the options for the client.
+   * @typedef {Object} ClientOpts
+   * @property {string} auth - The auth token for the Notion API.
+   */
+  export type ClientOpts = {
+    /**
+     * The auth token for the Notion API.
+     */
+    auth: string
+  }
+
   export function toContent(
     clientOpts: ClientOpts,
     toContentOpts: ToContentOpts
