@@ -13,13 +13,13 @@ function toContent(clientOpts, toContentOpts) {
 }
 
 async function toFrontmatterString(src, inOpts) {
-  return _entry_point_.Notion2content.Format.toFrontmatterString(src, inOpts)
+  return _entry_point_.Notion2content.toFrontmatterString(src, inOpts)
 }
 
 async function toHtmlString(src, inOpts) {
-  return _entry_point_.Notion2content.Format.toHtmlString(src, inOpts)
+  return _entry_point_.Notion2content.toHtmlString(src, inOpts)
 }
 
 async function toMarkdownString(src, inOpts) {
-  return _entry_point_.Notion2content.Format.toMarkdownString(src, inOpts)
+  return _entry_point_.Notion2content.toMarkdownString(src, inOpts)
 }

@@ -1,11 +1,13 @@
 import { Notion2content } from '../src/notion2content.js'
 
-const Format = Notion2content.Format
-
 describe('normalizeFormatOptions()', () => {
   it('should return normalized options', async () => {
-    expect(Format.normalizeFormatOptions()).toEqual({ sanitizeSchema: true })
-    expect(Format.normalizeFormatOptions({ sanitizeSchema: false })).toEqual({
+    expect(Notion2content.normalizeFormatOptions()).toEqual({
+      sanitizeSchema: true
+    })
+    expect(
+      Notion2content.normalizeFormatOptions({ sanitizeSchema: false })
+    ).toEqual({
       sanitizeSchema: false
     })
   })
@@ -14,11 +16,11 @@ describe('normalizeFormatOptions()', () => {
 describe('toHtmlString()', () => {
   describe('toFrontmatterString()', () => {
     it('should convert object to frontmatter string', async () => {
-      expect(await Format.toFrontmatterString({ id: 'test-id' })).toEqual(
-        '---\n---\n'
-      )
       expect(
-        await Format.toFrontmatterString({
+        await Notion2content.toFrontmatterString({ id: 'test-id' })
+      ).toEqual('---\n---\n')
+      expect(
+        await Notion2content.toFrontmatterString({
           id: 'test-id',
           props: { 'test-key': 'test-value' }
         })
@@ -27,15 +29,15 @@ describe('toHtmlString()', () => {
   })
 
   it('should convert hast to html string', async () => {
-    expect(await Format.toHtmlString({ id: 'test-id' })).toEqual('')
+    expect(await Notion2content.toHtmlString({ id: 'test-id' })).toEqual('')
     expect(
-      await Format.toHtmlString({
+      await Notion2content.toHtmlString({
         id: 'test-id',
         content: { type: 'text', value: 'test-text' }
       })
     ).toEqual('test-text')
     expect(
-      await Format.toHtmlString({
+      await Notion2content.toHtmlString({
         id: 'test-id',
         content: {
           type: 'element',
@@ -46,7 +48,7 @@ describe('toHtmlString()', () => {
       })
     ).toEqual('<a href="https://example.com"></a>')
     expect(
-      await Format.toHtmlString(
+      await Notion2content.toHtmlString(
         {
           id: 'test-id',
           content: {
@@ -60,7 +62,7 @@ describe('toHtmlString()', () => {
       )
     ).toEqual('<a>test-text</a>')
     expect(
-      await Format.toHtmlString(
+      await Notion2content.toHtmlString(
         {
           id: 'test-id',
           content: {
@@ -77,15 +79,17 @@ describe('toHtmlString()', () => {
 
   describe('toMarkdownString()', () => {
     it('should convert hast to markdown string', async () => {
-      expect(await Format.toMarkdownString({ id: 'test-id' })).toEqual('')
+      expect(await Notion2content.toMarkdownString({ id: 'test-id' })).toEqual(
+        ''
+      )
       expect(
-        await Format.toMarkdownString({
+        await Notion2content.toMarkdownString({
           id: 'test-id',
           content: { type: 'text', value: 'test-text' }
         })
       ).toEqual('test-text\n')
       expect(
-        await Format.toMarkdownString(
+        await Notion2content.toMarkdownString(
           {
             id: 'test-id',
             content: {
@@ -99,7 +103,7 @@ describe('toHtmlString()', () => {
         )
       ).toEqual('[test-text]()\n')
       expect(
-        await Format.toMarkdownString(
+        await Notion2content.toMarkdownString(
           {
             id: 'test-id',
             content: {
