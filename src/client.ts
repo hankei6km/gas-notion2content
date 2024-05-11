@@ -1,5 +1,4 @@
 import type { Client as NotionClient } from '@notionhq/client'
-import { QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
 import { Client as N2CClient } from 'notion2content'
 import type { Notion2content } from './notion2content.js'
 
