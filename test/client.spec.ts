@@ -101,6 +101,66 @@ describe('Client', () => {
       /^listBlockChildren 500, text: Internal Server Error$/
     )
   })
+
+  it('should call listBlockChildren with start_cursor', async () => {
+    const mockfetch = jest.fn().mockReturnValue({
+      getResponseCode: jest.fn().mockReturnValue(200),
+      getContentText: jest
+        .fn()
+        .mockReturnValue(JSON.stringify(exampleListBlockChildrenResult))
+    })
+    global.UrlFetchApp = {
+      fetch: mockfetch
+    } as any
+
+    const auth = randomUUID()
+    const c = new Client({ auth })
+    await expect(
+      c.listBlockChildren({ block_id: 'dummy', start_cursor: 'abc-123' })
+    ).resolves.toEqual(exampleListBlockChildrenResult)
+    expect(mockfetch).toHaveBeenCalledWith(
+      'https://api.notion.com/v1/blocks/dummy/children?start_cursor=abc-123',
+      {
+        headers: {
+          Authorization: `Bearer ${auth}`,
+          'Content-Type': 'application/json',
+          'Notion-Version': '2022-02-22'
+        },
+        method: 'get',
+        muteHttpExceptions: true
+      }
+    )
+  })
+
+  it('should call listBlockChildren with page_size', async () => {
+    const mockfetch = jest.fn().mockReturnValue({
+      getResponseCode: jest.fn().mockReturnValue(200),
+      getContentText: jest
+        .fn()
+        .mockReturnValue(JSON.stringify(exampleListBlockChildrenResult))
+    })
+    global.UrlFetchApp = {
+      fetch: mockfetch
+    } as any
+
+    const auth = randomUUID()
+    const c = new Client({ auth })
+    await expect(
+      c.listBlockChildren({ block_id: 'dummy', page_size: 123 })
+    ).resolves.toEqual(exampleListBlockChildrenResult)
+    expect(mockfetch).toHaveBeenCalledWith(
+      'https://api.notion.com/v1/blocks/dummy/children?page_size=123',
+      {
+        headers: {
+          Authorization: `Bearer ${auth}`,
+          'Content-Type': 'application/json',
+          'Notion-Version': '2022-02-22'
+        },
+        method: 'get',
+        muteHttpExceptions: true
+      }
+    )
+  })
 })
 
 // https://developers.notion.com/reference/post-database-query

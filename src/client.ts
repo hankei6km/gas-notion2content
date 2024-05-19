@@ -5,8 +5,27 @@ import type { Notion2content } from './notion2content.js'
 const apiVersion = '2022-02-22'
 const apiUrlDabtabaseQuery = (database_id: string) =>
   `https://api.notion.com/v1/databases/${database_id}/query`
-const apiUrlBlockChildren = (database_id: string) =>
-  `https://api.notion.com/v1/blocks/${database_id}/children`
+const startCursorRegExp = new RegExp(/^[\da-f\-]+$/)
+const apiUrlBlockChildren = (
+  database_id: string,
+  start_cursor?: string,
+  page_size?: number
+) => {
+  const params: string[] = []
+  // ドキュメントだとUUIDv4だがハイフンなしも許容されるようなので厳密な判定ではない
+  if (start_cursor && startCursorRegExp.test(start_cursor)) {
+    params.push(`start_cursor=${start_cursor}`)
+  }
+  if (typeof page_size === 'number' && page_size > 0) {
+    params.push(`page_size=${page_size}`)
+  }
+  if (params.length > 0) {
+    return `https://api.notion.com/v1/blocks/${database_id}/children?${params.join(
+      '&'
+    )}`
+  }
+  return `https://api.notion.com/v1/blocks/${database_id}/children`
+}
 
 export function isErrRes(
   res: GoogleAppsScript.URL_Fetch.HTTPResponse
@@ -55,7 +74,11 @@ export class Client extends N2CClient {
   listBlockChildren(
     ...args: Parameters<NotionClient['blocks']['children']['list']>
   ): ReturnType<NotionClient['blocks']['children']['list']> {
-    const url = apiUrlBlockChildren(args[0].block_id)
+    const url = apiUrlBlockChildren(
+      args[0].block_id,
+      args[0].start_cursor,
+      args[0].page_size
+    )
     const res = UrlFetchApp.fetch(url, {
       method: 'get',
       headers: {
