@@ -1,6 +1,6 @@
 {
   "name": "@hankei6km/gas-notion2content",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Notion のデータベースを変換しダウンロードする GAS ライブラリー",
   "author": "hankei6km <hankei6km@gmail.com> (https://github.com/hankei6km)",
   "license": "MIT",
