@@ -2,9 +2,9 @@ import { jest } from '@jest/globals'
 import { Client } from '../src/client.js'
 import { randomUUID } from 'node:crypto'
 
-const saveUrlFetchApp = global.UrlFetchApp
+const saveUrlFetchApp = globalThis.UrlFetchApp
 afterEach(() => {
-  global.UrlFetchApp = saveUrlFetchApp
+  globalThis.UrlFetchApp = saveUrlFetchApp
 })
 
 describe('Client', () => {
@@ -15,7 +15,7 @@ describe('Client', () => {
         .fn()
         .mockReturnValue(JSON.stringify(exampleQueryDatabasesResult))
     })
-    global.UrlFetchApp = {
+    globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
@@ -45,7 +45,7 @@ describe('Client', () => {
       getResponseCode: jest.fn().mockReturnValue(500),
       getContentText: jest.fn().mockReturnValue('Internal Server Error')
     })
-    global.UrlFetchApp = {
+    globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
@@ -63,7 +63,7 @@ describe('Client', () => {
         .fn()
         .mockReturnValue(JSON.stringify(exampleListBlockChildrenResult))
     })
-    global.UrlFetchApp = {
+    globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
@@ -91,7 +91,7 @@ describe('Client', () => {
       getResponseCode: jest.fn().mockReturnValue(500),
       getContentText: jest.fn().mockReturnValue('Internal Server Error')
     })
-    global.UrlFetchApp = {
+    globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
@@ -109,7 +109,7 @@ describe('Client', () => {
         .fn()
         .mockReturnValue(JSON.stringify(exampleListBlockChildrenResult))
     })
-    global.UrlFetchApp = {
+    globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
@@ -139,7 +139,7 @@ describe('Client', () => {
         .fn()
         .mockReturnValue(JSON.stringify(exampleListBlockChildrenResult))
     })
-    global.UrlFetchApp = {
+    globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 

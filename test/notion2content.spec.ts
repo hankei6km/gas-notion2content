@@ -2,9 +2,9 @@ import { jest } from '@jest/globals'
 import { randomUUID } from 'node:crypto'
 import { Notion2content } from '../src/notion2content.js'
 
-const saveUrlFetchApp = global.UrlFetchApp
+const saveUrlFetchApp = globalThis.UrlFetchApp
 afterEach(() => {
-  global.UrlFetchApp = saveUrlFetchApp
+  globalThis.UrlFetchApp = saveUrlFetchApp
 })
 
 describe('Notion2content.toContent', () => {
@@ -15,7 +15,7 @@ describe('Notion2content.toContent', () => {
         .fn()
         .mockReturnValue(JSON.stringify('{"results": []}'))
     })
-    global.UrlFetchApp = {
+    globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
@@ -42,7 +42,7 @@ describe('Notion2content.toContent', () => {
         .mockReturnValue(JSON.stringify(exampleQueryDatabasesResult))
         .mockReturnValue(JSON.stringify(exampleListBlockChildrenResult))
     })
-    global.UrlFetchApp = {
+    globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
@@ -92,7 +92,7 @@ describe('Notion2content.toContent', () => {
         .mockReturnValue(JSON.stringify(exampleQueryDatabasesResult))
         .mockReturnValue('Internal Server Error')
     })
-    global.UrlFetchApp = {
+    globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
