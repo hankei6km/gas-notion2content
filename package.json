@@ -51,7 +51,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@notionhq/client": "^4.0.0",
+    "@notionhq/client": "^5.4.0",
     "hast-util-sanitize": "^5.0.1",
     "notion2content": "^0.5.0"
   }
