@@ -1,18 +1,12 @@
 {
-  "name": "clasp",
-  "dockerFile": "Dockerfile",
-  "features": {
-    "ghcr.io/devcontainers/features/common-utils:2": {
-      "username": "vscode"
-    },
-    "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/hankei6km/h6-devcontainers-features/google-clasp:1": {}
-  },
-
-  "remoteUser": "vscode",
+  "name": "gas-notion2content",
+  "image": "ghcr.io/hankei6km/h6-dev-containers/images:clasp_latest",
+  "remoteUser": "devcontainer",
   "customizations": {
     "vscode": {
-      "extensions": ["esbenp.prettier-vscode"],
+      "extensions": [
+        "esbenp.prettier-vscode"
+      ],
       "settings": {
         "[typescript]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode"
