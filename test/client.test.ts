@@ -1,5 +1,6 @@
-import { jest } from '@jest/globals'
-import { Client } from '../src/client.js'
+import { describe, it, mock, afterEach } from 'node:test'
+import assert from 'node:assert/strict'
+import { Client } from '../src/client.ts'
 import { randomUUID } from 'node:crypto'
 
 const saveUrlFetchApp = globalThis.UrlFetchApp
@@ -9,12 +10,10 @@ afterEach(() => {
 
 describe('Client', () => {
   it('should queryDatabases is successful', async () => {
-    const mockfetch = jest.fn().mockReturnValue({
-      getResponseCode: jest.fn().mockReturnValue(200),
-      getContentText: jest
-        .fn()
-        .mockReturnValue(JSON.stringify(exampleQueryDatabasesResult))
-    })
+    const mockfetch = mock.fn(() => ({
+      getResponseCode: mock.fn(() => 200),
+      getContentText: mock.fn(() => JSON.stringify(exampleQueryDatabasesResult))
+    }))
     globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
@@ -22,10 +21,11 @@ describe('Client', () => {
     const auth = randomUUID()
     const c = new Client({ auth })
 
-    await expect(c.queryDatabases({ database_id: 'dummy' })).resolves.toEqual(
+    assert.deepStrictEqual(
+      await c.queryDatabases({ database_id: 'dummy' }),
       exampleQueryDatabasesResult
     )
-    expect(mockfetch).toHaveBeenCalledWith(
+    assert.deepStrictEqual(mockfetch.mock.calls[0].arguments, [
       'https://api.notion.com/v1/databases/dummy/query',
       {
         headers: {
@@ -37,42 +37,50 @@ describe('Client', () => {
         muteHttpExceptions: true,
         payload: '{}'
       }
-    )
+    ])
   })
 
   it('should reject in queryDatabases by internal server error', async () => {
-    const mockfetch = jest.fn().mockReturnValue({
-      getResponseCode: jest.fn().mockReturnValue(500),
-      getContentText: jest.fn().mockReturnValue('Internal Server Error')
-    })
+    const mockfetch = mock.fn(() => ({
+      getResponseCode: mock.fn(() => 500),
+      getContentText: mock.fn(() => 'Internal Server Error')
+    }))
     globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
     const auth = randomUUID()
     const c = new Client({ auth })
-    await expect(c.queryDatabases({ database_id: 'dummy' })).rejects.toThrow(
-      /^queryDatabases 500, text: Internal Server Error$/
+    await assert.rejects(
+      c.queryDatabases({ database_id: 'dummy' }),
+      (err: Error) => {
+        assert.match(
+          err.message,
+          /^queryDatabases 500, text: Internal Server Error$/
+        )
+        return true
+      }
     )
   })
 
   it('should listBlockChildren is successful', async () => {
-    const mockfetch = jest.fn().mockReturnValue({
-      getResponseCode: jest.fn().mockReturnValue(200),
-      getContentText: jest
-        .fn()
-        .mockReturnValue(JSON.stringify(exampleListBlockChildrenResult))
-    })
+    const mockfetch = mock.fn(() => ({
+      getResponseCode: mock.fn(() => 200),
+      getContentText: mock.fn(() =>
+        JSON.stringify(exampleListBlockChildrenResult)
+      )
+    }))
     globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
     const auth = randomUUID()
     const c = new Client({ auth })
-    await expect(c.listBlockChildren({ block_id: 'dummy' })).resolves.toEqual(
+    await assert.deepStrictEqual(
+      await c.listBlockChildren({ block_id: 'dummy' }),
       exampleListBlockChildrenResult
     )
-    expect(mockfetch).toHaveBeenCalledWith(
+    assert.deepStrictEqual(mockfetch.mock.calls[0].arguments, [
       'https://api.notion.com/v1/blocks/dummy/children',
       {
         headers: {
@@ -83,42 +91,50 @@ describe('Client', () => {
         method: 'get',
         muteHttpExceptions: true
       }
-    )
+    ])
   })
 
   it('should throw error from listBlockChildren', async () => {
-    const mockfetch = jest.fn().mockReturnValue({
-      getResponseCode: jest.fn().mockReturnValue(500),
-      getContentText: jest.fn().mockReturnValue('Internal Server Error')
-    })
+    const mockfetch = mock.fn(() => ({
+      getResponseCode: mock.fn(() => 500),
+      getContentText: mock.fn(() => 'Internal Server Error')
+    }))
     globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
     const auth = randomUUID()
     const c = new Client({ auth })
-    await expect(c.listBlockChildren({ block_id: 'dummy' })).rejects.toThrow(
-      /^listBlockChildren 500, text: Internal Server Error$/
+    await assert.rejects(
+      c.listBlockChildren({ block_id: 'dummy' }),
+      (err: Error) => {
+        assert.match(
+          err.message,
+          /^listBlockChildren 500, text: Internal Server Error$/
+        )
+        return true
+      }
     )
   })
 
   it('should call listBlockChildren with start_cursor', async () => {
-    const mockfetch = jest.fn().mockReturnValue({
-      getResponseCode: jest.fn().mockReturnValue(200),
-      getContentText: jest
-        .fn()
-        .mockReturnValue(JSON.stringify(exampleListBlockChildrenResult))
-    })
+    const mockfetch = mock.fn(() => ({
+      getResponseCode: mock.fn(() => 200),
+      getContentText: mock.fn(() =>
+        JSON.stringify(exampleListBlockChildrenResult)
+      )
+    }))
     globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
     const auth = randomUUID()
     const c = new Client({ auth })
-    await expect(
-      c.listBlockChildren({ block_id: 'dummy', start_cursor: 'abc-123' })
-    ).resolves.toEqual(exampleListBlockChildrenResult)
-    expect(mockfetch).toHaveBeenCalledWith(
+    assert.deepStrictEqual(
+      await c.listBlockChildren({ block_id: 'dummy', start_cursor: 'abc-123' }),
+      exampleListBlockChildrenResult
+    )
+    assert.deepStrictEqual(mockfetch.mock.calls[0].arguments, [
       'https://api.notion.com/v1/blocks/dummy/children?start_cursor=abc-123',
       {
         headers: {
@@ -129,26 +145,27 @@ describe('Client', () => {
         method: 'get',
         muteHttpExceptions: true
       }
-    )
+    ])
   })
 
   it('should call listBlockChildren with page_size', async () => {
-    const mockfetch = jest.fn().mockReturnValue({
-      getResponseCode: jest.fn().mockReturnValue(200),
-      getContentText: jest
-        .fn()
-        .mockReturnValue(JSON.stringify(exampleListBlockChildrenResult))
-    })
+    const mockfetch = mock.fn(() => ({
+      getResponseCode: mock.fn(() => 200),
+      getContentText: mock.fn(() =>
+        JSON.stringify(exampleListBlockChildrenResult)
+      )
+    }))
     globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
 
     const auth = randomUUID()
     const c = new Client({ auth })
-    await expect(
-      c.listBlockChildren({ block_id: 'dummy', page_size: 123 })
-    ).resolves.toEqual(exampleListBlockChildrenResult)
-    expect(mockfetch).toHaveBeenCalledWith(
+    assert.deepStrictEqual(
+      await c.listBlockChildren({ block_id: 'dummy', page_size: 123 }),
+      exampleListBlockChildrenResult
+    )
+    assert.deepStrictEqual(mockfetch.mock.calls[0].arguments, [
       'https://api.notion.com/v1/blocks/dummy/children?page_size=123',
       {
         headers: {
@@ -159,7 +176,7 @@ describe('Client', () => {
         method: 'get',
         muteHttpExceptions: true
       }
-    )
+    ])
   })
 })
 

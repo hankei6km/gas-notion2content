@@ -1,6 +1,7 @@
-import { jest } from '@jest/globals'
+import { describe, it, mock, afterEach } from 'node:test'
+import assert from 'node:assert/strict'
 import { randomUUID } from 'node:crypto'
-import * as Notion2content from '../src/notion2content.js'
+import * as Notion2content from '../src/notion2content.ts'
 
 const saveUrlFetchApp = globalThis.UrlFetchApp
 afterEach(() => {
@@ -8,13 +9,11 @@ afterEach(() => {
 })
 
 describe('Notion2content.toContent', () => {
-  test('should return async iterator from toContent()', async () => {
-    const mockfetch = jest.fn().mockReturnValue({
-      getResponseCode: jest.fn().mockReturnValue(200),
-      getContentText: jest
-        .fn()
-        .mockReturnValue(JSON.stringify('{"results": []}'))
-    })
+  it('should return async iterator from toContent()', async () => {
+    const mockfetch = mock.fn(() => ({
+      getResponseCode: mock.fn(() => 200),
+      getContentText: mock.fn(() => JSON.stringify('{"results": []}'))
+    }))
     globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
@@ -31,17 +30,16 @@ describe('Notion2content.toContent', () => {
         toHastOpts: {}
       }
     )
-    await expect(i.next()).resolves.toEqual({ done: true, value: undefined })
+    assert.deepStrictEqual(await i.next(), { done: true, value: undefined })
   })
 
-  test('should retrive pages by async iterator', async () => {
-    const mockfetch = jest.fn().mockReturnValue({
-      getResponseCode: jest.fn().mockReturnValue(200),
-      getContentText: jest
-        .fn()
-        .mockReturnValue(JSON.stringify(exampleQueryDatabasesResult))
-        .mockReturnValue(JSON.stringify(exampleListBlockChildrenResult))
-    })
+  it('should retrive pages by async iterator', async () => {
+    const mockfetch = mock.fn(() => ({
+      getResponseCode: mock.fn(() => 200),
+      getContentText: mock.fn(() =>
+        JSON.stringify(exampleListBlockChildrenResult)
+      )
+    }))
     globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
@@ -58,7 +56,7 @@ describe('Notion2content.toContent', () => {
         toHastOpts: {}
       }
     )
-    await expect(i.next()).resolves.toEqual({
+    assert.deepStrictEqual(await i.next(), {
       done: false,
       value: {
         content: {
@@ -81,17 +79,14 @@ describe('Notion2content.toContent', () => {
         props: {}
       }
     })
-    await expect(i.next()).resolves.toEqual({ done: true, value: undefined })
+    assert.deepStrictEqual(await i.next(), { done: true, value: undefined })
   })
 
-  test('should reject in async iterator', async () => {
-    const mockfetch = jest.fn().mockReturnValue({
-      getResponseCode: jest.fn().mockReturnValue(200).mockReturnValue(500),
-      getContentText: jest
-        .fn()
-        .mockReturnValue(JSON.stringify(exampleQueryDatabasesResult))
-        .mockReturnValue('Internal Server Error')
-    })
+  it('should reject in async iterator', async (t) => {
+    const mockfetch = t.mock.fn(() => ({
+      getResponseCode: t.mock.fn(() => 500),
+      getContentText: t.mock.fn(() => 'Internal Server Error')
+    }))
     globalThis.UrlFetchApp = {
       fetch: mockfetch
     } as any
@@ -108,10 +103,14 @@ describe('Notion2content.toContent', () => {
         toHastOpts: {}
       }
     )
-    await expect(i.next()).rejects.toThrow(
-      /^toContent: error from fetchPages: Error: queryDatabases 500, text: Internal Server Error, database_id:dummy$/
-    )
-    await expect(i.next()).resolves.toEqual({ done: true, value: undefined })
+    await assert.rejects(i.next(), (err: Error) => {
+      assert.match(
+        err.message,
+        /^toContent: error from fetchPages: Error: queryDatabases 500, text: Internal Server Error, database_id:dummy$/
+      )
+      return true
+    })
+    assert.deepStrictEqual(await i.next(), { done: true, value: undefined })
   })
 })
 

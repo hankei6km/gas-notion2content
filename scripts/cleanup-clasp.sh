@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rimraf ".clasp.json" "${HOME}/.clasprc_tmp.json"
+rm -rf ".clasp.json" "${HOME}/.clasprc_tmp.json"
