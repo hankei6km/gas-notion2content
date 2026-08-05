@@ -1,6 +1,6 @@
 import type { Client as NotionClient } from '@notionhq/client'
 import { Client as N2CClient } from 'notion2content'
-import type { Notion2content } from './notion2content.js'
+import type * as Notion2content from './notion2content.js'
 
 const apiVersion = '2022-02-22'
 const apiUrlDabtabaseQuery = (database_id: string) =>

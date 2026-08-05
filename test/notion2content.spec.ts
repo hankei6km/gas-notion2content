@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals'
 import { randomUUID } from 'node:crypto'
-import { Notion2content } from '../src/notion2content.js'
+import * as Notion2content from '../src/notion2content.js'
 
 const saveUrlFetchApp = globalThis.UrlFetchApp
 afterEach(() => {

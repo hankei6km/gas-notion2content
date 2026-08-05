@@ -1,4 +1,4 @@
-import { Notion2content } from '../src/notion2content.js'
+import * as Notion2content from '../src/notion2content.js'
 
 describe('normalizeFormatOptions()', () => {
   it('should return normalized options', async () => {
