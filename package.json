@@ -6,10 +6,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/hankei6km/gas-notion2content"
+    "url": "git+https://github.com/hankei6km/gas-notion2content.git"
   },
   "bugs": {
-    "url": "https://github.com/hankei6km/gas-notion2contentues"
+    "url": "https://github.com/hankei6km/gas-notion2content/issues"
   },
   "keywords": [
     "gas",
