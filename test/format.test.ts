@@ -1,42 +1,55 @@
-import * as Notion2content from '../src/notion2content.js'
+import { describe, it } from 'node:test'
+import assert from 'node:assert/strict'
+import * as Notion2content from '../src/notion2content.ts'
 
 describe('normalizeFormatOptions()', () => {
   it('should return normalized options', async () => {
-    expect(Notion2content.normalizeFormatOptions()).toEqual({
+    assert.deepStrictEqual(Notion2content.normalizeFormatOptions(), {
       sanitizeSchema: true
     })
-    expect(
-      Notion2content.normalizeFormatOptions({ sanitizeSchema: false })
-    ).toEqual({
-      sanitizeSchema: false
-    })
+    assert.deepStrictEqual(
+      Notion2content.normalizeFormatOptions({ sanitizeSchema: false }),
+      {
+        sanitizeSchema: false
+      }
+    )
   })
 })
 
 describe('toHtmlString()', () => {
   describe('toFrontmatterString()', () => {
     it('should convert object to frontmatter string', async () => {
-      expect(
-        await Notion2content.toFrontmatterString({ id: 'test-id' })
-      ).toEqual('---\n---\n')
-      expect(
+      assert.strictEqual(
+        await Notion2content.toFrontmatterString({ id: 'test-id' }),
+        '---\n---\n'
+      )
+      assert.strictEqual(
         await Notion2content.toFrontmatterString({
           id: 'test-id',
           props: { 'test-key': 'test-value' }
-        })
-      ).toEqual('---\ntest-key: test-value\n---\n')
+        }),
+        '---\ntest-key: test-value\n---\n'
+      )
     })
   })
 
   it('should convert hast to html string', async () => {
-    expect(await Notion2content.toHtmlString({ id: 'test-id' })).toEqual('')
-    expect(
+    assert.strictEqual(await Notion2content.toHtmlString({ id: 'test-id' }), '')
+    assert.strictEqual(
       await Notion2content.toHtmlString({
         id: 'test-id',
         content: { type: 'text', value: 'test-text' }
-      })
-    ).toEqual('test-text')
-    expect(
+      }),
+      'test-text'
+    )
+    assert.strictEqual(
+      await Notion2content.toHtmlString({
+        id: 'test-id',
+        content: { type: 'text', value: 'test-text' }
+      }),
+      'test-text'
+    )
+    assert.strictEqual(
       await Notion2content.toHtmlString({
         id: 'test-id',
         content: {
@@ -45,9 +58,10 @@ describe('toHtmlString()', () => {
           properties: { href: 'https://example.com' },
           children: []
         }
-      })
-    ).toEqual('<a href="https://example.com"></a>')
-    expect(
+      }),
+      '<a href="https://example.com"></a>'
+    )
+    assert.strictEqual(
       await Notion2content.toHtmlString(
         {
           id: 'test-id',
@@ -59,9 +73,10 @@ describe('toHtmlString()', () => {
           }
         },
         {}
-      )
-    ).toEqual('<a>test-text</a>')
-    expect(
+      ),
+      '<a>test-text</a>'
+    )
+    assert.strictEqual(
       await Notion2content.toHtmlString(
         {
           id: 'test-id',
@@ -73,22 +88,25 @@ describe('toHtmlString()', () => {
           }
         },
         { sanitizeSchema: false }
-      )
-    ).toEqual('<a href="javascrpt:alert(123)">test-text</a>')
+      ),
+      '<a href="javascrpt:alert(123)">test-text</a>'
+    )
   })
 
   describe('toMarkdownString()', () => {
     it('should convert hast to markdown string', async () => {
-      expect(await Notion2content.toMarkdownString({ id: 'test-id' })).toEqual(
+      assert.strictEqual(
+        await Notion2content.toMarkdownString({ id: 'test-id' }),
         ''
       )
-      expect(
+      assert.strictEqual(
         await Notion2content.toMarkdownString({
           id: 'test-id',
           content: { type: 'text', value: 'test-text' }
-        })
-      ).toEqual('test-text\n')
-      expect(
+        }),
+        'test-text\n'
+      )
+      assert.strictEqual(
         await Notion2content.toMarkdownString(
           {
             id: 'test-id',
@@ -100,9 +118,10 @@ describe('toHtmlString()', () => {
             }
           },
           {}
-        )
-      ).toEqual('[test-text]()\n')
-      expect(
+        ),
+        '[test-text]()\n'
+      )
+      assert.strictEqual(
         await Notion2content.toMarkdownString(
           {
             id: 'test-id',
@@ -114,8 +133,9 @@ describe('toHtmlString()', () => {
             }
           },
           { sanitizeSchema: false }
-        )
-      ).toEqual('[test-text](javascrpt:alert\\(123\\))\n')
+        ),
+        '[test-text](javascrpt:alert\\(123\\))\n'
+      )
     })
   })
 })

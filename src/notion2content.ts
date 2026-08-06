@@ -1,7 +1,7 @@
 import { toContent as _toContent, Format as _Format } from 'notion2content'
 import type { ToContentOpts, Format as _FormatType } from 'notion2content'
 import type { ContentRaw } from 'notion2content'
-import { Client } from './client.js'
+import { Client } from './client.ts'
 import { sanitize, defaultSchema } from 'hast-util-sanitize'
 import type { Schema } from 'hast-util-sanitize'
 
