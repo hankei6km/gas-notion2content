@@ -43,7 +43,7 @@
     "@types/google-apps-script": "^2.0.0",
     "@types/node": "^26.0.0",
     "esbuild": "^0.28.0",
-    "typescript": "^5.4.5"
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "@notionhq/client": "^4.0.0",
