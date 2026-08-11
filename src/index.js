@@ -54,7 +54,7 @@ async function toFrontmatterString(src, inOpts) {
  * Converts Notion content to an HTML string.
  * @param {string} src - The source Notion content.
  * @param {Object} inOpts - The input options.
- * @returns {PromisPromise<string>e} A promise that resolves to the HTML string.
+ * @returns {Promise<string>} A promise that resolves to the HTML string.
  */
 async function toHtmlString(src, inOpts) {
   return _entry_point_.Notion2content.toHtmlString(src, inOpts)
