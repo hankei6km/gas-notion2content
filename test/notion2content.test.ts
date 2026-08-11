@@ -24,7 +24,7 @@ describe('Notion2content.toContent', () => {
       {
         target: ['props', 'content'],
         query: {
-          database_id: 'dummy'
+          data_source_id: 'dummy'
         },
         toItemsOpts: {},
         toHastOpts: {}
@@ -50,7 +50,7 @@ describe('Notion2content.toContent', () => {
       {
         target: ['props', 'content'],
         query: {
-          database_id: 'dummy'
+          data_source_id: 'dummy'
         },
         toItemsOpts: {},
         toHastOpts: {}
@@ -97,7 +97,7 @@ describe('Notion2content.toContent', () => {
       {
         target: ['props', 'content'],
         query: {
-          database_id: 'dummy'
+          data_source_id: 'dummy'
         },
         toItemsOpts: {},
         toHastOpts: {}
@@ -106,7 +106,7 @@ describe('Notion2content.toContent', () => {
     await assert.rejects(i.next(), (err: Error) => {
       assert.match(
         err.message,
-        /^toContent: error from fetchPages: Error: queryDatabases 500, text: Internal Server Error, database_id:dummy$/
+        /^toContent: error from fetchPages: Error: queryDataSources 500, text: Internal Server Error, data_source_id:dummy$/
       )
       return true
     })

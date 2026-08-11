@@ -29,7 +29,7 @@ describe('Notion2content', () => {
       {
         target: ['props', 'content'],
         query: {
-          database_id: 'dummy'
+          data_source_id: 'dummy'
         },
         toItemsOpts: {},
         toHastOpts: {}
@@ -46,7 +46,7 @@ describe('Notion2content', () => {
         {
           target: ['props', 'content'],
           query: {
-            database_id: 'dummy'
+            data_source_id: 'dummy'
           },
           toItemsOpts: {},
           toHastOpts: {}

@@ -3,7 +3,7 @@
  * @copyright (c) 2024 hankei6km
  * @license MIT
  * see "LICENSE.txt" "OPEN_SOURCE_LICENSES.txt" of "gas-notion2content.zip" in
- * releases(https://github.com/hankei6km/gas-md2html/releases)
+ * releases(https://github.com/hankei6km/gas-notion2content/releases)
  */
 
 'use strict'
@@ -17,14 +17,14 @@
  * async function MyFunc() {
  *   const props = PropertiesService.getScriptProperties()
  *   const apiKey = props.getProperty('NOTION2CONTENT_API_KEY')
- *   const database_id = props.getProperty('NOTION2CONTENT_DATABASE_ID')
+ *   const data_source_id = props.getProperty('NOTION2CONTENT_DATA_SOURCE_ID')
  *
  *   const i = Notion2content.toContent(
  *     { auth: apiKey },
  *     {
  *       target: ['props', 'content'],
  *       query: {
- *         database_id: database_id
+ *         data_source_id: data_source_id
  *       },
  *       toItemsOpts: {},
  *       toHastOpts: {}

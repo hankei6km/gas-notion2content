@@ -9,7 +9,7 @@ afterEach(() => {
 })
 
 describe('Client', () => {
-  it('should queryDatabases is successful', async () => {
+  it('should queryDataSource is successful', async () => {
     const mockfetch = mock.fn(() => ({
       getResponseCode: mock.fn(() => 200),
       getContentText: mock.fn(() => JSON.stringify(exampleQueryDatabasesResult))
@@ -22,16 +22,16 @@ describe('Client', () => {
     const c = new Client({ auth })
 
     assert.deepStrictEqual(
-      await c.queryDatabases({ database_id: 'dummy' }),
+      await c.queryDataSources({ data_source_id: 'dummy' }),
       exampleQueryDatabasesResult
     )
     assert.deepStrictEqual(mockfetch.mock.calls[0].arguments, [
-      'https://api.notion.com/v1/databases/dummy/query',
+      'https://api.notion.com/v1/data_sources/dummy/query',
       {
         headers: {
           Authorization: `Bearer ${auth}`,
           'Content-Type': 'application/json',
-          'Notion-Version': '2022-02-22'
+          'Notion-Version': '2026-03-11'
         },
         method: 'post',
         muteHttpExceptions: true,
@@ -40,7 +40,7 @@ describe('Client', () => {
     ])
   })
 
-  it('should reject in queryDatabases by internal server error', async () => {
+  it('should reject in queryDataSources by internal server error', async () => {
     const mockfetch = mock.fn(() => ({
       getResponseCode: mock.fn(() => 500),
       getContentText: mock.fn(() => 'Internal Server Error')
@@ -52,11 +52,11 @@ describe('Client', () => {
     const auth = randomUUID()
     const c = new Client({ auth })
     await assert.rejects(
-      c.queryDatabases({ database_id: 'dummy' }),
+      c.queryDataSources({ data_source_id: 'dummy' }),
       (err: Error) => {
         assert.match(
           err.message,
-          /^queryDatabases 500, text: Internal Server Error$/
+          /^queryDataSources 500, text: Internal Server Error$/
         )
         return true
       }
@@ -86,7 +86,7 @@ describe('Client', () => {
         headers: {
           Authorization: `Bearer ${auth}`,
           'Content-Type': 'application/json',
-          'Notion-Version': '2022-02-22'
+          'Notion-Version': '2026-03-11'
         },
         method: 'get',
         muteHttpExceptions: true
@@ -140,7 +140,7 @@ describe('Client', () => {
         headers: {
           Authorization: `Bearer ${auth}`,
           'Content-Type': 'application/json',
-          'Notion-Version': '2022-02-22'
+          'Notion-Version': '2026-03-11'
         },
         method: 'get',
         muteHttpExceptions: true
@@ -171,7 +171,7 @@ describe('Client', () => {
         headers: {
           Authorization: `Bearer ${auth}`,
           'Content-Type': 'application/json',
-          'Notion-Version': '2022-02-22'
+          'Notion-Version': '2026-03-11'
         },
         method: 'get',
         muteHttpExceptions: true
