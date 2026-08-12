@@ -2,17 +2,19 @@ import type { Client as NotionClient } from '@notionhq/client'
 import { Client as N2CClient } from 'notion2content'
 import type * as Notion2content from './notion2content.js'
 
-const apiVersion = '2022-02-22'
-const apiUrlDabtabaseQuery = (database_id: string) =>
-  `https://api.notion.com/v1/databases/${database_id}/query`
+const apiVersion = '2026-03-11'
+const apiUrlDataSourcesQuery = (data_source_id: string) =>
+  `https://api.notion.com/v1/data_sources/${data_source_id}/query`
 const startCursorRegExp = new RegExp(/^[\da-f\-]+$/)
 const apiUrlBlockChildren = (
   database_id: string,
-  start_cursor?: string,
+  start_cursor?: string | null,
   page_size?: number
 ) => {
   const params: string[] = []
   // ドキュメントだとUUIDv4だがハイフンなしも許容されるようなので厳密な判定ではない
+  // 型的には null も含まれるがドキュメントでは string<uuid> と表現されている。
+  // null のときの扱いが不明(以下の処理では query パラメーターに含めない対応としている)
   if (start_cursor && startCursorRegExp.test(start_cursor)) {
     params.push(`start_cursor=${start_cursor}`)
   }
@@ -44,11 +46,11 @@ export class Client extends N2CClient {
     this.auth = options.auth
   }
 
-  queryDatabases(
-    ...args: Parameters<NotionClient['databases']['query']>
-  ): ReturnType<NotionClient['databases']['query']> {
-    const url = apiUrlDabtabaseQuery(args[0].database_id)
-    const { database_id, ...payload } = args[0]
+  queryDataSources(
+    ...args: Parameters<NotionClient['dataSources']['query']>
+  ): ReturnType<NotionClient['dataSources']['query']> {
+    const url = apiUrlDataSourcesQuery(args[0].data_source_id)
+    const { data_source_id, ...payload } = args[0]
     const res = UrlFetchApp.fetch(url, {
       method: 'post',
       headers: {
@@ -62,12 +64,12 @@ export class Client extends N2CClient {
     if (isErrRes(res)) {
       return Promise.reject(
         new Error(
-          `queryDatabases ${res.getResponseCode()}, text: ${res.getContentText()}`
+          `queryDataSources ${res.getResponseCode()}, text: ${res.getContentText()}`
         )
       )
     }
     const resQuery = JSON.parse(res.getContentText()) as Awaited<
-      ReturnType<NotionClient['databases']['query']>
+      ReturnType<NotionClient['dataSources']['query']>
     >
     return Promise.resolve(resQuery)
   }

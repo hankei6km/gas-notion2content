@@ -26,14 +26,14 @@ export type ClientOpts = {
  * async function MyFunc() {
  *   const props = PropertiesService.getScriptProperties()
  *   const apiKey = props.getProperty('NOTION2CONTENT_API_KEY')
- *   const database_id = props.getProperty('NOTION2CONTENT_DATABASE_ID')
+ *   const data_source_id = props.getProperty('NOTION2CONTENT_DATA_SOURCE_ID')
  *
  *   const i = Notion2content.toContent(
  *     { auth: apiKey },
  *     {
  *       target: ['props', 'content'],
  *       query: {
- *         database_id: database_id
+ *         data_source_id: data_source_id
  *       },
  *       toItemsOpts: {},
  *       toHastOpts: {}

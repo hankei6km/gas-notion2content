@@ -46,8 +46,8 @@
     "typescript": "^7.0.2"
   },
   "dependencies": {
-    "@notionhq/client": "^4.0.0",
+    "@notionhq/client": "^5.24.0",
     "hast-util-sanitize": "^5.0.1",
-    "notion2content": "^0.5.5"
+    "notion2content": "^0.5.7"
   }
 }
